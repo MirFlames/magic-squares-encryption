@@ -1,15 +1,12 @@
-import numpy as np
-import os
-
-
-def is_magic(matrix):
-    if np.array_equal(np.unique(matrix.sum(axis=1)), np.unique(matrix.sum(axis=0))):
-        return True
-    else:
-        return False
+import numpy as np  # Для работы с матрицами
+import os  # Для приветствия пользователя
 
 
 def generate_magic(n):
+    """ Функция генерации магического квадрата размерностью n на n """
+    if n % 2 == 0:
+        n += 1
+
     generated_matrix = np.zeros([n, n])
     for i in range(n):
         generated_matrix[i][i] = (n - 1) / 2
@@ -37,6 +34,7 @@ def generate_magic(n):
 
 
 def find_in_matrix(value, input_matrix):
+    """ Функция поиска в какой строке и столбце расположен элемент в матрице """
     size = len(input_matrix)
     for i in range(size):
         for j in range(size):
@@ -66,10 +64,12 @@ def magic_square_to_string(crypt_square, magic_square):
 
 print("Hello, " + os.environ.get("USERNAME") + "!\nEnter your string:")
 input_string = str(input())
-size_of_matrix = int(np.ceil(np.sqrt(len(input_string))))
-magic = generate_magic(size_of_matrix)
-print(magic)
-matrix = string_to_magic_square(input_string, magic)
-print(matrix)
-string = magic_square_to_string(magic, matrix)
-print(string)
+print("Length of text: " + str(len(input_string)) + " symbols\n")
+
+size_of_matrix = int(np.ceil(np.sqrt(len(input_string))))  # Расчет размеров магического квадрата
+magic = generate_magic(size_of_matrix)  # Генерация магического квадрата полученной выше размерности
+print("Magic square:\n", magic)  # Вывод магического квадрата на экран
+matrix = string_to_magic_square(input_string, magic)  # Шифрование строки
+print("Encrypted string in matrix:\n", matrix)  # Вывод зашифрованной строки, имеющей теперь вид двумерного массива
+string = magic_square_to_string(magic, matrix)  # Обратное преобразование в строку
+print("Decrypted string:\n", string)  # Вывод исходной строки
